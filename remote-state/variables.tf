@@ -7,5 +7,5 @@ variable "aws_region" {
 variable "dynamodb_table_name" {
   description = "dynamodb table name"
   type        = string
-  default     = "aws-devops"
+  default     = "aws-devops-terraform-state-lock"
 }

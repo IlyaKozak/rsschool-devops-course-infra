@@ -1,15 +1,15 @@
-resource "aws_s3_bucket" "terraform_state" {
+resource "aws_s3_bucket" "state" {
 }
 
-resource "aws_s3_bucket_versioning" "terraform_state" {
-  bucket = aws_s3_bucket.terraform_state.id
+resource "aws_s3_bucket_versioning" "state" {
+  bucket = aws_s3_bucket.state.id
 
   versioning_configuration {
     status = "Enabled"
   }
 }
 
-resource "aws_dynamodb_table" "terraform_state_lock" {
+resource "aws_dynamodb_table" "state_lock" {
   name         = var.dynamodb_table_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
