@@ -35,6 +35,7 @@ resource "aws_iam_role_policy_attachment" "policy-attach" {
     "arn:aws:iam::aws:policy/AmazonVPCFullAccess",
     "arn:aws:iam::aws:policy/AmazonSQSFullAccess",
     "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess",
+    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess",
   ])
 
   role       = aws_iam_role.github_actions_role.name
