@@ -13,7 +13,7 @@ variable "iam_role_name" {
 variable "github_org" {
   description = "github organization account"
   type        = string
-  default     = "IlyaKozak"
+  default     = "ilyakozak"
 }
 
 variable "github_repo" {
