@@ -19,7 +19,7 @@ variable "github_org" {
 variable "github_repo" {
   description = "github repo"
   type        = string
-  default     = "IlyaKozak"
+  default     = "rsschool-devops-course-tasks"
 }
 
 variable "oidc_provider_domain" {

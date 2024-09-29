@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "policy_doc" {
     condition {
       test     = "StringLike"
       variable = "${var.oidc_provider_domain}:sub"
-      values   = ["repo:${var.github_org}/${var.github_org}:*"]
+      values   = ["repo:${var.github_org}/${var.github_repo}:*"]
     }
   }
 }
