@@ -4,24 +4,6 @@ variable "aws_region" {
   default     = "eu-north-1"
 }
 
-variable "state_s3_bucket" {
-  description = "terraform state s3 bucket"
-  type        = string
-  default     = "terraform-backend"
-}
-
-variable "state_s3_bucket_key" {
-  description = "terraform state s3 bucket key"
-  type        = string
-  default     = "aws-devops/terraform.tfstate"
-}
-
-variable "state_dynamodb_table_lock" {
-  description = "terraform state dynamodb table for locking"
-  type        = string
-  default     = "terraform-lock"
-}
-
 variable "iam_role_name" {
   description = "iam role name for github actions"
   type        = string
@@ -46,7 +28,6 @@ variable "oidc_provider_domain" {
   default     = "token.actions.githubusercontent.com"
 }
 
-# https://github.blog/changelog/2023-06-27-github-actions-update-on-oidc-integration-with-aws/
 variable "oidc_thumbprint_1" {
   description = "github actions OIDC provider thumbprint 1"
   type        = string
