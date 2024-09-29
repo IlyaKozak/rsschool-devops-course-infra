@@ -40,6 +40,6 @@
 - `terraform init`
 - `terraform apply`
 
-3. Add secret `AWS_ROLE_TO_ASSUME` and environment variable `AWS_REGION` in GitHub repo for GitHub Actions workflow.
+3. Add secret `AWS_ROLE_TO_ASSUME` and environment variable `AWS_REGION` in GitHub repo for GitHub Actions workflow
 
 4. Create Pull Request/Push to `main` branch for starting GitHub Actions workflow jobs `terraform-check`, `terraform-plan` and `terraform-apply` to deploy AWS resources with Terraform
