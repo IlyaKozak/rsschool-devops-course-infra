@@ -1,7 +1,13 @@
-variable "aws_region" {
-  description = "aws region to deploy resources"
-  type        = string
-  default     = "eu-north-1"
+variable "aws" {
+  description = "aws setup"
+  type = object({
+    region             = string
+    availability_zones = list(string)
+  })
+  default = {
+    region             = "eu-north-1"
+    availability_zones = ["eu-north-1a", "eu-north-1b"]
+  }
 }
 
 variable "iam_role" {
@@ -48,4 +54,22 @@ variable "oidc_provider" {
   }
 }
 
+# Networking
+variable "vpc" {
+  description = "VPC with 2 public & 2 private subnets"
+  type = object({
+    cidr                  = string
+    public_subnet_1_cidr  = string
+    public_subnet_2_cidr  = string
+    private_subnet_1_cidr = string
+    private_subnet_2_cidr = string
+  })
+  default = {
+    cidr                  = "10.0.0.0/20"
+    public_subnet_1_cidr  = "10.0.0.0/24"
+    public_subnet_2_cidr  = "10.0.1.0/24"
+    private_subnet_1_cidr = "10.0.8.0/24"
+    private_subnet_2_cidr = "10.0.9.0/24"
+  }
+}
 
