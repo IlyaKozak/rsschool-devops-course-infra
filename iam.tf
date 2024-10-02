@@ -1,11 +1,11 @@
 resource "aws_iam_openid_connect_provider" "oidc" {
-  url = "https://${var.oidc_provider_domain}"
+  url = "https://${var.oidc_provider.domain}"
 
   client_id_list = [
     "sts.amazonaws.com",
   ]
 
-  thumbprint_list = [var.oidc_thumbprint_1, var.oidc_thumbprint_2]
+  thumbprint_list = var.oidc_provider.thumbprints
 }
 
 resource "aws_iam_role" "github_actions_role" {
@@ -24,14 +24,14 @@ data "aws_iam_policy_document" "policy_doc" {
 
     condition {
       test     = "StringEquals"
-      variable = "${var.oidc_provider_domain}:aud"
+      variable = "${var.oidc_provider.domain}:aud"
       values   = ["sts.amazonaws.com"]
     }
 
     condition {
       test     = "StringLike"
-      variable = "${var.oidc_provider_domain}:sub"
-      values   = ["repo:${var.github_org}/${var.github_repo}:*"]
+      variable = "${var.oidc_provider.domain}:sub"
+      values   = ["repo:${var.github.org}/${var.github.repo}:*"]
     }
   }
 }
