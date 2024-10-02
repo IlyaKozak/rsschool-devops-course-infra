@@ -5,7 +5,7 @@ variable "aws_region" {
 }
 
 variable "iam_role" {
-  description = "iam role for github actions"
+  description = "iam role to assume for github actions"
   type = object({
     name     = string
     policies = set(string)
@@ -26,7 +26,7 @@ variable "iam_role" {
 }
 
 variable "github" {
-  description = "github repository setup"
+  description = "github repository"
   default = {
     "org"  = "IlyaKozak"
     "repo" = "rsschool-devops-course-tasks"
