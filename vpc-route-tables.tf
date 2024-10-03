@@ -1,21 +1,22 @@
-resource "aws_route_table" "public-route-table" {
-  vpc_id = aws_vpc.k8s-vpc.id
+resource "aws_default_route_table" "public-route-table" {
+  default_route_table_id = aws_vpc.k8s-vpc.default_route_table_id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.k8s-vpc-igw.id
+  }
+
   tags = {
     Name = "public-k8s-route-table"
   }
 }
 resource "aws_route_table_association" "public-route-1-association" {
-  route_table_id = aws_route_table.public-route-table.id
+  route_table_id = aws_default_route_table.public-route-table.id
   subnet_id      = aws_subnet.public-subnet-1.id
 }
 resource "aws_route_table_association" "public-route-2-association" {
-  route_table_id = aws_route_table.public-route-table.id
+  route_table_id = aws_default_route_table.public-route-table.id
   subnet_id      = aws_subnet.public-subnet-2.id
-}
-resource "aws_route" "public-internet-gateway-route" {
-  route_table_id         = aws_route_table.public-route-table.id
-  gateway_id             = aws_internet_gateway.k8s-vpc-igw.id
-  destination_cidr_block = "0.0.0.0/0"
 }
 
 resource "aws_route_table" "private-route-table-1" {
