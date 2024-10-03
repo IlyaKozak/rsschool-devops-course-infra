@@ -57,13 +57,7 @@ variable "oidc_provider" {
 # Networking
 variable "vpc" {
   description = "VPC with 2 public & 2 private subnets"
-  type = object({
-    cidr                  = string
-    public_subnet_1_cidr  = string
-    public_subnet_2_cidr  = string
-    private_subnet_1_cidr = string
-    private_subnet_2_cidr = string
-  })
+  type        = map(string)
   default = {
     cidr                  = "10.0.0.0/20"
     public_subnet_1_cidr  = "10.0.0.0/24"
