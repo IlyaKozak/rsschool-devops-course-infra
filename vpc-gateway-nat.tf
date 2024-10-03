@@ -4,3 +4,4 @@ resource "aws_internet_gateway" "k8s-vpc-igw" {
     Name = "k8s-igw"
   }
 }
+
