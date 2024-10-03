@@ -44,14 +44,23 @@
 - `terraform init`
 - `terraform apply`
 
-2. Fill out S3 bucket and DynamoDB info in `provider.tf` in `backend` block and run commands to create GithubActions role in AWS to be able create AWS resources from GitHub Actions workflow with OIDC temporarily credentials and GithubActions role to assume _[one-time setup]_:
+2. Generate key pair to ssh to EC2 instances:
+
+- Generates a new SSH key pair named `aws_ec2_key` with a 4096-bit RSA encryption algorithm:  
+  `ssh-keygen -t rsa -b 4096 -f ~/.ssh/aws_ec2_key`
+- Change the permissions of the private key file:  
+  `chmod 400 ~/.ssh/aws_ec2_key`
+- Use the `ssh` command to connect to your EC2 instance after AWS resources creation below:  
+  `ssh -i ~/.ssh/aws_ec2_key ec2-user@<ec2_public_ip>`
+
+3. Fill out S3 bucket and DynamoDB info in `provider.tf` in `backend` block and run commands to create GithubActions role in AWS to be able create AWS resources from GitHub Actions workflow with OIDC temporarily credentials and GithubActions role to assume _[one-time setup]_:
 
 - `cd ..`
 - `terraform init`
 - `terraform apply`
 
-3. Add secret `AWS_ROLE_TO_ASSUME` and environment variable `AWS_REGION` in GitHub repo for GitHub Actions workflow run
+4. Add secret `AWS_ROLE_TO_ASSUME` and environment variable `AWS_REGION` in GitHub repo for GitHub Actions workflow run
 
-4. Create Pull Request/Push to `main` branch for starting GitHub Actions workflow job `terraform` to deploy AWS resources with Terraform
+5. Create Pull Request/Push to `main` branch for starting GitHub Actions workflow job `terraform` to deploy AWS resources with Terraform
 
-5. `terraform destroy` to destroy AWS resources
+6. `terraform destroy` to destroy AWS resources

@@ -54,6 +54,24 @@ variable "oidc_provider" {
   }
 }
 
+variable "nat" {
+  description = "nat istance"
+  type        = map(string)
+  default = {
+    type = "t4g.nano",
+    ami  = "ami-0d916634f7eb5727f",
+  }
+}
+
+variable "key" {
+  description = "public key to ssh to ec2"
+  type        = map(string)
+  default = {
+    key_name   = "aws_ec2_key"
+    public_key = "~/.ssh/aws_ec2_key.pub"
+  }
+}
+
 # Networking
 variable "vpc" {
   description = "VPC with 2 public & 2 private subnets"
