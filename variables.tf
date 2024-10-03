@@ -59,6 +59,7 @@ variable "vpc" {
   description = "VPC with 2 public & 2 private subnets"
   type        = map(string)
   default = {
+    default_cidr          = "0.0.0.0/0"
     cidr                  = "10.0.0.0/20"
     public_subnet_1_cidr  = "10.0.0.0/24"
     public_subnet_2_cidr  = "10.0.1.0/24"
@@ -67,3 +68,20 @@ variable "vpc" {
   }
 }
 
+variable "ports" {
+  description = "default ports"
+  type        = map(number)
+  default = {
+    ssh   = 22
+    http  = 80
+    https = 443
+  }
+}
+
+variable "protocols" {
+  description = "default protocols"
+  type        = map(string)
+  default = {
+    tcp = "tcp"
+  }
+}
