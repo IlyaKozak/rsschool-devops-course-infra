@@ -1,12 +1,12 @@
-resource "aws_internet_gateway" "k8s-vpc-igw" {
-  vpc_id = aws_vpc.k8s-vpc.id
+resource "aws_internet_gateway" "k8s_vpc_igw" {
+  vpc_id = aws_vpc.k8s_vpc.id
   tags = {
-    Name = "k8s-igw"
+    Name = "k8s_igw"
   }
 }
 
 resource "aws_network_interface" "nat_network_interface" {
-  subnet_id         = aws_subnet.public-subnet-1.id
+  subnet_id         = aws_subnet.public_subnet_1.id
   source_dest_check = false
   security_groups   = [aws_security_group.ec2_nat.id]
 
@@ -25,7 +25,7 @@ resource "aws_instance" "nat_instance_bastion_host" {
   instance_type = var.nat.type
   count         = 1
   key_name      = aws_key_pair.ssh.key_name
-  user_data = file("user-data-nat.sh")
+  user_data     = file("user_data_nat.sh")
 
   network_interface {
     network_interface_id = aws_network_interface.nat_network_interface.id

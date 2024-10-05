@@ -58,9 +58,9 @@ variable "nat" {
   description = "nat istance"
   type        = map(string)
   default = {
-    type = "t4g.nano",
-    ami  = "ami-096a84b3b6234d916",
-    volume_size = 1,
+    type        = "t4g.nano",
+    ami         = "ami-096a84b3b6234d916",
+    volume_size = 8,
     volume_type = "gp3",
   }
 }
@@ -69,9 +69,9 @@ variable "ec2" {
   description = "ec2 istance"
   type        = map(string)
   default = {
-    type = "t4g.nano",
-    ami  = "ami-096a84b3b6234d916",
-    volume_size = 1,
+    type        = "t4g.nano",
+    ami         = "ami-096a84b3b6234d916",
+    volume_size = 8,
     volume_type = "gp3",
   }
 }
