@@ -29,7 +29,7 @@ resource "aws_instance" "nat_instance_bastion_host" {
     network_interface_id = aws_network_interface.nat_network_interface.id
     device_index         = 0
   }
-  user_data = file("user_data.sh")
+  user_data = file("user-data-nat.sh")
 
   tags = {
     Name = "nat_instance"
