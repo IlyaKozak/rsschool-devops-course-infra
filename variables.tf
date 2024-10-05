@@ -106,7 +106,7 @@ variable "ports" {
     ssh   = 22
     http  = 80
     https = 443
-    all   = -1
+    all   = 0
   }
 }
 

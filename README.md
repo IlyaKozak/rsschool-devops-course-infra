@@ -15,10 +15,10 @@
 ├── output.tf               <- output values
 ├── iam.tf                  <- resources files for iam
 ├── vpc-....tf              <- resources files for vpc/subnets/rt/gateway/nat
+├── nacl.tf                 <- Network ACL
+├── security-group.tf       <- security groups for NAT and EC2
 ├── user_data_nat.sh        <- user data for NAT Instance
 ├── key.tf                  <- generated key pair
-├── acl.tf                  <- Network ACL
-├── security-group.tf       <- security groups for NAT and EC2
 ├── ec2.tf                  <- EC2 private subnets
 └── ...
 ```

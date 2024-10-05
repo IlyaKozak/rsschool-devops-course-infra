@@ -74,8 +74,8 @@ resource "aws_security_group" "ec2_private" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
+    from_port   = var.ports.all
+    to_port     = var.ports.all
     protocol    = var.protocols.all
     cidr_blocks = [var.vpc.default_cidr]
   }
