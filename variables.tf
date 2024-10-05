@@ -107,6 +107,7 @@ variable "ports" {
     http  = 80
     https = 443
     all   = -1
+    zero  = 0
   }
 }
 

@@ -6,8 +6,8 @@ resource "aws_network_acl" "k8s-network-acl" {
     action     = "allow"
     protocol   = var.protocols.all
     cidr_block = var.vpc.default_cidr
-    from_port  = var.ports.all
-    to_port    = var.ports.all
+    from_port  = var.ports.zero
+    to_port    = var.ports.zero
   }
 
   egress {
@@ -15,8 +15,8 @@ resource "aws_network_acl" "k8s-network-acl" {
     action     = "allow"
     protocol   = var.protocols.all
     cidr_block = var.vpc.default_cidr
-    from_port  = var.ports.all
-    to_port    = var.ports.all
+    from_port  = var.ports.zero
+    to_port    = var.ports.zero
   }
 
   tags = {
