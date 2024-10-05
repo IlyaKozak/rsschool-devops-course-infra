@@ -103,5 +103,6 @@ variable "protocols" {
   default = {
     tcp  = "tcp"
     icmp = "icmp"
+    all  = -1
   }
 }
