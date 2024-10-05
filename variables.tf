@@ -59,7 +59,7 @@ variable "nat" {
   type        = map(string)
   default = {
     type = "t4g.nano",
-    ami  = "ami-0d916634f7eb5727f",
+    ami  = "ami-096a84b3b6234d916",
   }
 }
 
@@ -93,6 +93,7 @@ variable "ports" {
     ssh   = 22
     http  = 80
     https = 443
+    all   = -1
   }
 }
 
@@ -100,6 +101,7 @@ variable "protocols" {
   description = "default protocols"
   type        = map(string)
   default = {
-    tcp = "tcp"
+    tcp  = "tcp"
+    icmp = "icmp"
   }
 }

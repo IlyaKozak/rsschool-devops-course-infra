@@ -21,6 +21,12 @@ resource "aws_route_table_association" "public-route-2-association" {
 
 resource "aws_route_table" "private-route-table-1" {
   vpc_id = aws_vpc.k8s-vpc.id
+
+  route {
+    cidr_block           = var.vpc.default_cidr
+    network_interface_id = aws_network_interface.nat_network_interface.id
+  }
+
   tags = {
     Name = "private-k8s-route-table-1"
   }
@@ -32,6 +38,12 @@ resource "aws_route_table_association" "private-route-1-association" {
 
 resource "aws_route_table" "private-route-table-2" {
   vpc_id = aws_vpc.k8s-vpc.id
+
+  route {
+    cidr_block           = var.vpc.default_cidr
+    network_interface_id = aws_network_interface.nat_network_interface.id
+  }
+
   tags = {
     Name = "private-k8s-route-table-2"
   }
