@@ -25,11 +25,17 @@ resource "aws_instance" "nat_instance_bastion_host" {
   instance_type = var.nat.type
   count         = 1
   key_name      = aws_key_pair.ssh.key_name
+  user_data = file("user-data-nat.sh")
+
   network_interface {
     network_interface_id = aws_network_interface.nat_network_interface.id
     device_index         = 0
   }
-  user_data = file("user-data-nat.sh")
+
+  root_block_device {
+    volume_size = var.nat.volume_size
+    volume_type = var.nat.volume_type
+  }
 
   tags = {
     Name = "nat_instance"

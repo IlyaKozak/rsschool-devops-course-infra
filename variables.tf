@@ -60,6 +60,8 @@ variable "nat" {
   default = {
     type = "t4g.nano",
     ami  = "ami-096a84b3b6234d916",
+    volume_size = 1,
+    volume_type = "gp3",
   }
 }
 
