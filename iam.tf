@@ -8,12 +8,12 @@ resource "aws_iam_openid_connect_provider" "oidc" {
   thumbprint_list = var.oidc_provider.thumbprints
 }
 
-resource "aws_iam_role" "github_actions_role" {
+resource "aws_iam_role" "github_actions" {
   name               = var.iam_role.name
-  assume_role_policy = data.aws_iam_policy_document.policy_doc.json
+  assume_role_policy = data.aws_iam_policy_document.github_actions.json
 }
 
-data "aws_iam_policy_document" "policy_doc" {
+data "aws_iam_policy_document" "github_actions" {
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
 
@@ -36,9 +36,9 @@ data "aws_iam_policy_document" "policy_doc" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "policy-attach" {
+resource "aws_iam_role_policy_attachment" "github_actions" {
   for_each = var.iam_role.policies
 
-  role       = aws_iam_role.github_actions_role.name
+  role       = aws_iam_role.github_actions.name
   policy_arn = each.value
 }

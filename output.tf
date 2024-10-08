@@ -10,22 +10,22 @@ output "key_pair" {
 output "subnets" {
   description = "subnets"
   value = {
-    public_subnet_1  = "${aws_subnet.public_subnet_1.id}",
-    public_subnet_2  = "${aws_subnet.public_subnet_2.id}",
-    private_subnet_1 = "${aws_subnet.private_subnet_1.id}",
-    private_subnet_2 = "${aws_subnet.private_subnet_2.id}",
+    public_subnet_1  = "${aws_subnet.public_1.id}",
+    public_subnet_2  = "${aws_subnet.public_2.id}",
+    private_subnet_1 = "${aws_subnet.private_1.id}",
+    private_subnet_2 = "${aws_subnet.private_2.id}",
   }
 }
 
 output "elastic_ip" {
   description = "elastic ip for NAT"
-  value       = aws_eip.nat_instance_ip.public_ip
+  value       = aws_eip.nat.public_ip
 }
 
 output "nat_instances" {
   description = "details of the NAT instance"
   value = [
-    for nat in aws_instance.nat_instance_bastion_host : {
+    for nat in aws_instance.nat_bastion_host : {
       public_ip  = nat.public_ip
       private_ip = nat.private_ip
       subnet_id  = nat.subnet_id
@@ -33,10 +33,10 @@ output "nat_instances" {
   ]
 }
 
-output "ec2_private_instances" {
-  description = "details of the EC2 private instances"
+output "ec2_instances" {
+  description = "details of the EC2 instances"
   value = [
-    for instance in aws_instance.ec2_private : {
+    for instance in aws_instance.ec2 : {
       public_ip  = instance.public_ip
       private_ip = instance.private_ip
       subnet_id  = instance.subnet_id

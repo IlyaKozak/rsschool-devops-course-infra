@@ -1,68 +1,59 @@
-resource "aws_network_acl" "k8s-network-acl" {
-  vpc_id = aws_vpc.k8s_vpc.id
+resource "aws_network_acl" "k8s-public" {
+  vpc_id = aws_vpc.k8s.id
+  subnet_ids = [
+    aws_subnet.public_1.id,
+    aws_subnet.public_2.id,
+  ]
 
   ingress {
     rule_no    = 100
     action     = "allow"
-    protocol   = var.protocols.all
+    protocol   = -1
     cidr_block = var.vpc.default_cidr
-    from_port  = var.ports.zero
-    to_port    = var.ports.zero
+    from_port  = 0
+    to_port    = 0
   }
 
   egress {
     rule_no    = 100
     action     = "allow"
-    protocol   = var.protocols.all
+    protocol   = -1
     cidr_block = var.vpc.default_cidr
-    from_port  = var.ports.zero
-    to_port    = var.ports.zero
+    from_port  = 0
+    to_port    = 0
   }
 
   tags = {
-    Name = "k8s-network-acl"
+    Name = "k8s-network-acl-public"
   }
 }
 
-data "aws_subnet" "public_subnet_1" {
-  filter {
-    name   = "tag:Name"
-    values = ["public_k8s_subnet_1"]
-  }
-}
-
-data "aws_subnet" "public_subnet_2" {
-  filter {
-    name   = "tag:Name"
-    values = ["public_k8s_subnet_2"]
-  }
-}
-
-data "aws_subnet" "private_subnet_1" {
-  filter {
-    name   = "tag:Name"
-    values = ["private_k8s_subnet_1"]
-  }
-}
-
-data "aws_subnet" "private_subnet_2" {
-  filter {
-    name   = "tag:Name"
-    values = ["private_k8s_subnet_2"]
-  }
-}
-
-locals {
+resource "aws_network_acl" "k8s-private" {
+  vpc_id = aws_vpc.k8s.id
   subnet_ids = [
-    data.aws_subnet.public_subnet_1.id,
-    data.aws_subnet.public_subnet_2.id,
-    data.aws_subnet.private_subnet_1.id,
-    data.aws_subnet.private_subnet_2.id
+    aws_subnet.private_1.id,
+    aws_subnet.private_2.id,
   ]
-}
 
-resource "aws_network_acl_association" "acl_associations" {
-  for_each       = toset(local.subnet_ids)
-  subnet_id      = each.value
-  network_acl_id = aws_network_acl.k8s-network-acl.id
+  ingress {
+    rule_no    = 100
+    action     = "allow"
+    protocol   = -1
+    cidr_block = var.vpc.default_cidr
+    from_port  = 0
+    to_port    = 0
+  }
+
+  egress {
+    rule_no    = 100
+    action     = "allow"
+    protocol   = -1
+    cidr_block = var.vpc.default_cidr
+    from_port  = 0
+    to_port    = 0
+  }
+
+  tags = {
+    Name = "k8s-network-acl-private"
+  }
 }

@@ -91,32 +91,10 @@ variable "vpc" {
   type        = map(string)
   default = {
     default_cidr          = "0.0.0.0/0"
-    cidr                  = "10.0.0.0/20"
+    vpc_cidr              = "10.0.0.0/20"
     public_subnet_1_cidr  = "10.0.0.0/24"
     public_subnet_2_cidr  = "10.0.1.0/24"
     private_subnet_1_cidr = "10.0.8.0/24"
     private_subnet_2_cidr = "10.0.9.0/24"
-  }
-}
-
-variable "ports" {
-  description = "default ports"
-  type        = map(number)
-  default = {
-    ssh   = 22
-    http  = 80
-    https = 443
-    all   = -1
-    zero  = 0
-  }
-}
-
-variable "protocols" {
-  description = "default protocols"
-  type        = map(string)
-  default = {
-    tcp  = "tcp"
-    icmp = "icmp"
-    all  = -1
   }
 }
