@@ -48,7 +48,7 @@ resource "aws_security_group" "ec2_nat" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.vpc.private_subnet_1_cidr, var.vpc.private_subnet_2_cidr]
+    cidr_blocks = [var.vpc.vpc_cidr]
   }
 
   egress {
