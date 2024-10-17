@@ -7,16 +7,6 @@ output "key_pair" {
   sensitive = true
 }
 
-output "subnets" {
-  description = "subnets"
-  value = {
-    public_subnet_1  = "${aws_subnet.public_1.id}",
-    public_subnet_2  = "${aws_subnet.public_2.id}",
-    private_subnet_1 = "${aws_subnet.private_1.id}",
-    private_subnet_2 = "${aws_subnet.private_2.id}",
-  }
-}
-
 output "elastic_ip" {
   description = "elastic ip for NAT"
   value       = aws_eip.nat.public_ip
@@ -33,13 +23,10 @@ output "nat_instances" {
   ]
 }
 
-output "ec2_instances" {
-  description = "details of the EC2 instances"
-  value = [
-    for instance in aws_instance.ec2 : {
-      public_ip  = instance.public_ip
-      private_ip = instance.private_ip
-      subnet_id  = instance.subnet_id
-    }
-  ]
+output "k3s_cluster" {
+  description = "k3s_cluster"
+  value = {
+    k3s_server = "${aws_instance.k3s_server.private_ip}"
+    k3s_agent  = "${aws_instance.k3s_agent.private_ip}"
+  }
 }

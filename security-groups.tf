@@ -68,8 +68,7 @@ resource "aws_security_group" "ec2_nat" {
   }
 }
 
-
-resource "aws_security_group" "ec2" {
+resource "aws_security_group" "ec2_vpc" {
   name        = "ec2_security_group"
   description = "allows ingress from vpc and egress to everywhere"
   vpc_id      = aws_vpc.k8s.id
