@@ -6,7 +6,7 @@ while [ ! -f /etc/rancher/k3s/k3s.yaml ]; do
     sleep 10
 done
 
-until kubectl get nodes; do
+until kubectl get nodes | grep -q NAME; do
     echo "Waiting for the K3s API server to be ready..."
     sleep 10
 done

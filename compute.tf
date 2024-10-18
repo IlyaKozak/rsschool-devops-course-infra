@@ -1,6 +1,6 @@
 resource "aws_instance" "k3s_server" {
   ami             = var.ec2.ami
-  instance_type   = var.ec2.small_type
+  instance_type   = var.ec2.micro_type
   key_name        = aws_key_pair.ssh.key_name
   subnet_id       = aws_subnet.private_1.id
   security_groups = [aws_security_group.ec2_vpc.id]

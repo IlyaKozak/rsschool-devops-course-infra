@@ -20,19 +20,11 @@ resource "aws_security_group" "ec2_nat" {
   }
 
   ingress {
-    description = "http"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = [var.vpc.private_subnet_1_cidr, var.vpc.private_subnet_2_cidr]
-  }
-
-  ingress {
-    description = "https"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = [var.vpc.private_subnet_1_cidr, var.vpc.private_subnet_2_cidr]
+    description = "ingress from vpc subnets"
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
+    cidr_blocks = [var.vpc.vpc_cidr]
   }
 
   egress {
@@ -44,10 +36,10 @@ resource "aws_security_group" "ec2_nat" {
   }
 
   egress {
-    description = "ssh"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    description = "egress to vpc subnets"
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
     cidr_blocks = [var.vpc.vpc_cidr]
   }
 
