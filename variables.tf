@@ -79,11 +79,10 @@ variable "ec2" {
 }
 
 variable "key" {
-  description = "public key to ssh to ec2"
+  description = "ssh key for aws bastion host"
   type        = map(string)
   default = {
-    key_name   = "aws_ec2_key"
-    public_key = "~/.ssh/aws_ec2_key.pub"
+    key_name = "aws_jump_host"
   }
 }
 
