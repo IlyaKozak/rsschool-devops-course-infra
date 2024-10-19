@@ -27,7 +27,7 @@
 
 ### Task 3 - K8s Cluster Configuration and Creation
 
-- Terraform code is created or extended to manage AWS resources required for the k3s cluster creation
+- Terraform code is extended to manage AWS resources required for the k3s cluster creation
 - k3s cluster is created on EC2 instances by user data configuration scripts after the instance starts `user_data_k3s_server.sh` & `user_data_k3s_agent.sh`
 - k3s config is copied from k3s-server `/etc/rancher/k3s/k3s.yaml` to local machine `~/.kube/config`. `server` field is changed. `proxy-url` field is added.
 
@@ -45,7 +45,7 @@ clusters:
 - The following command starts a SOCKS5 proxy between local machine and remote SOCKS/SSH server behind which the Kubernetes cluster API is running (bastion host):  
    `ssh -D 1080 -q -N ec2-user@bastion-host-ip`  
   `-D 1080` - opens a SOCKS proxy on local port :1080
-- You can run `kubectl` locally and connect to private Kubernetes API
+- Run `kubectl` locally and connect to private Kubernetes API
 
 **k3s Kubernetes Cluster Diagram:**  
 ![Diagram](tasks-images/task3-diagram.png)
@@ -86,7 +86,7 @@ clusters:
 
 3. Configure `ssh`:
 
-- On your local computer configure `ssh` agent forwarding, so that you can use NAT instance as a Bastion Host: `ssh-add key.pem`
+- On your local computer configure `ssh` agent forwarding, so that you can use Bastion Host to `ssh` to private instances: `ssh-add key.pem`
 - Connect to Bastion Host: `ssh -A ec2-user@nat-instance-public-ip-address`
 - From your Bastion Host connect to instances in private subnets: `ssh ec2-user@private-server-private-ip-address`
 
