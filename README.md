@@ -90,7 +90,7 @@ clusters:
 - Connect to Bastion Host: `ssh -A ec2-user@nat-instance-public-ip-address`
 - From your Bastion Host connect to instances in private subnets: `ssh ec2-user@private-server-private-ip-address`
 
-4. Add secret `AWS_ROLE_TO_ASSUME` and environment variable `AWS_REGION` in GitHub repo for GitHub Actions workflow to run
+4. Add secrets `AWS_ROLE_TO_ASSUME`, `TF_VAR_token` (k3s cluster token) and environment variable `AWS_REGION` in GitHub repo for GitHub Actions workflow to run
 
 5. Create Pull Request/Push to `main` branch for starting GitHub Actions workflow job `terraform` to deploy AWS resources with Terraform
 
