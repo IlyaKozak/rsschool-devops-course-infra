@@ -72,7 +72,6 @@ variable "ec2" {
     nano_type   = "t4g.nano"
     micro_type  = "t4g.micro"
     small_type  = "t4g.small"
-    ami         = "ami-096a84b3b6234d916",
     volume_size = 8,
     volume_type = "gp3",
   }
