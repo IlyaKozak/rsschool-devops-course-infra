@@ -21,7 +21,7 @@ resource "aws_eip" "nat" {
 }
 
 resource "aws_instance" "nat_bastion_host" {
-  count         = 1
+  count = 1
 
   ami           = data.aws_ami.amazon_linux_2023_latest.id
   instance_type = var.nat.type
