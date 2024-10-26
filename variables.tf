@@ -90,6 +90,11 @@ variable "token" {
   type        = string
 }
 
+variable "is_local_setup" {
+  description = "if true prepare ssh and k3s configs on local machine for kubectl"
+  type        = bool
+}
+
 # Networking
 variable "vpc" {
   description = "VPC with 2 public & 2 private subnets"

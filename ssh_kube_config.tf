@@ -1,8 +1,9 @@
 # prepare ssh and k3s configs on local machine for kubectl
 resource "local_file" "ssh_kube_config" {
-  filename = pathexpand("~/.ssh/config")
+  count = var.is_local_setup ? 1 : 0
 
-  content = templatefile("ssh_config.template", {
+  filename = pathexpand("~/.ssh/config")
+  content = templatefile("ssh_config.tpl", {
     bastion_ip    = aws_eip.nat.public_ip
     k3s_server_ip = aws_instance.k3s_server.private_ip
     ssh_key_file  = local_sensitive_file.pem_file.filename
@@ -19,9 +20,9 @@ resource "local_file" "ssh_kube_config" {
 
   # check if k3s config is ready for download
   provisioner "remote-exec" {
-    on_failure = continue
+    on_failure = fail
     inline = [
-      "while [ ! -f /home/ec2-user/config.yaml ]; do echo 'waiting for k3s API and kubeconfig...'; sleep 10; done"
+      "while [ ! -f /home/ec2-user/config.yaml ]; do echo 'waiting for k3s kubeconfig file to be ready...'; sleep 10; done"
     ]
   }
 

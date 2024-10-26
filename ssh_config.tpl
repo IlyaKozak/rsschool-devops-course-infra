@@ -2,9 +2,7 @@ Host bastion
   HostName ${bastion_ip}
   User ec2-user
   IdentityFile ${ssh_key_file}
-  ForwardAgent yes
   StrictHostKeyChecking no
-  UserKnownHostsFile=/dev/null
 
 Host k3s_server
   HostName ${k3s_server_ip}
@@ -12,4 +10,3 @@ Host k3s_server
   IdentityFile ${ssh_key_file}
   ProxyJump bastion
   StrictHostKeyChecking no
-  UserKnownHostsFile=/dev/null
