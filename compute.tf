@@ -37,7 +37,8 @@ resource "aws_instance" "k3s_server" {
   iam_instance_profile = aws_iam_instance_profile.ebs_csi_instance_profile.name
 
   user_data = templatefile("user_data_k3s_server.sh", {
-    token = var.token
+    token       = var.token,
+    jenkins_ebs = aws_ebs_volume.jenkins.id
   })
 
   root_block_device {

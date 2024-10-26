@@ -31,20 +31,43 @@ export KUBECONFIG="/etc/rancher/k3s/k3s.yaml"
 # install aws-ebs-csi-driver
 helm install aws-ebs-csi-driver --namespace kube-system aws-ebs-csi-driver/aws-ebs-csi-driver
 
-# create ebs storage class and make it default
-kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
+# create jenkins persistent volume
 cat <<EOF | kubectl apply -f -
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
+apiVersion: v1
+kind: PersistentVolume
 metadata:
-  name: ebs-sc
-  annotations:
-    storageclass.kubernetes.io/is-default-class: "true"
-provisioner: ebs.csi.aws.com
-volumeBindingMode: WaitForFirstConsumer
+  name: jenkins-pv
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  csi:
+    driver: ebs.csi.aws.com
+    volumeHandle: ${jenkins_ebs}
+EOF
+
+# create jenkins namespace
+kubectl create namespace jenkins
+
+# create jenkins persistent volume claim
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-claim
+  namespace: jenkins
+spec:
+  storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
+  volumeName: jenkins-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
 EOF
 
 # install jenkins to k8s with pv dynamically provisioned with default ebs storage class
-helm install jenkins jenkins/jenkins --namespace jenkins --create-namespace
+helm install jenkins jenkins/jenkins --namespace jenkins --set persistence.existingClaim=jenkins-claim
 
 echo "jenkins pod is created."
