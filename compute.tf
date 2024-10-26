@@ -28,11 +28,14 @@ data "aws_ami" "amazon_linux_2023_latest" {
 }
 
 resource "aws_instance" "k3s_server" {
-  ami             = data.aws_ami.amazon_linux_2023_latest.id
-  instance_type   = var.ec2.small_type
-  key_name        = aws_key_pair.ssh.key_name
-  subnet_id       = aws_subnet.private_1.id
-  security_groups = [aws_security_group.ec2_vpc.id]
+  ami           = data.aws_ami.amazon_linux_2023_latest.id
+  instance_type = var.ec2.small_type
+  subnet_id     = aws_subnet.private_1.id
+
+  key_name             = aws_key_pair.ssh.key_name
+  security_groups      = [aws_security_group.ec2_vpc.id]
+  iam_instance_profile = aws_iam_instance_profile.ebs_csi_instance_profile.name
+
   user_data = templatefile("user_data_k3s_server.sh", {
     token = var.token
   })
@@ -49,15 +52,18 @@ resource "aws_instance" "k3s_server" {
 }
 
 resource "aws_instance" "k3s_agent" {
-  ami             = data.aws_ami.amazon_linux_2023_latest.id
-  instance_type   = var.ec2.nano_type
+  ami           = data.aws_ami.amazon_linux_2023_latest.id
+  instance_type = var.ec2.nano_type
+  subnet_id     = aws_subnet.private_2.id
+
   key_name        = aws_key_pair.ssh.key_name
-  subnet_id       = aws_subnet.private_2.id
   security_groups = [aws_security_group.ec2_vpc.id]
+
   user_data = templatefile("user_data_k3s_agent.sh", {
     token                 = var.token,
     k3s_server_private_ip = aws_instance.k3s_server.private_ip
   })
+
   depends_on = [aws_instance.k3s_server]
 
   root_block_device {

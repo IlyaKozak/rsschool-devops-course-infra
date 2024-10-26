@@ -22,14 +22,14 @@ resource "local_file" "ssh_kube_config" {
   provisioner "remote-exec" {
     on_failure = fail
     inline = [
-      "while [ ! -f /home/ec2-user/config.yaml ]; do echo 'waiting for k3s kubeconfig file to be ready...'; sleep 10; done"
+      "while [ ! -f /home/ec2-user/.kube/config ]; do echo 'waiting for k3s kubeconfig file to be ready...'; sleep 10; done"
     ]
   }
 
   # scp k3s config from k3s server to local machine
   provisioner "local-exec" {
     on_failure  = continue
-    command     = "scp k3s_server:/home/ec2-user/config.yaml config"
+    command     = "scp k3s_server:/home/ec2-user/.kube/config config"
     interpreter = ["bash", "-c"]
   }
 
