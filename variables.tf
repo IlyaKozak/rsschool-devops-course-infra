@@ -69,7 +69,9 @@ variable "ec2" {
   description = "ec2 istance"
   type        = map(string)
   default = {
-    type        = "t4g.nano",
+    nano_type   = "t4g.nano"
+    micro_type  = "t4g.micro"
+    small_type  = "t4g.small"
     ami         = "ami-096a84b3b6234d916",
     volume_size = 8,
     volume_type = "gp3",
@@ -77,12 +79,16 @@ variable "ec2" {
 }
 
 variable "key" {
-  description = "public key to ssh to ec2"
+  description = "ssh key for aws bastion host"
   type        = map(string)
   default = {
-    key_name   = "aws_ec2_key"
-    public_key = "~/.ssh/aws_ec2_key.pub"
+    key_name = "aws_jump_host"
   }
+}
+
+variable "token" {
+  description = "k3s token"
+  type        = string
 }
 
 # Networking
