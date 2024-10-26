@@ -67,6 +67,16 @@ spec:
       storage: 8Gi
 EOF
 
+# create ebs storage class for dynamic persistent volumes provisioning
+cat <<EOF | kubectl apply -f -
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ebs-sc
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+EOF
+
 # install jenkins to k8s with pv dynamically provisioned with default ebs storage class
 helm install jenkins jenkins/jenkins --namespace jenkins --set persistence.existingClaim=jenkins-claim
 
