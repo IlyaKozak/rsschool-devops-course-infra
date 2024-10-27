@@ -12,9 +12,6 @@
 ├── main.tf
 ├── compute.tf              <- EC2 k3s server and agents
 ├── vpc-....tf              <- resources files for vpc/subnets/rt/gateway/nat/bastion
-├── user_data_nat.sh        <- user data for NAT Instance/Bastion Host
-├── user_data_k3s_server.sh <- user data for k3s server
-├── user_data_k3s_agent.sh  <- user data for k3s agent
 ├── iam.tf                  <- resources files for iam
 ├── nacl.tf                 <- Network ACL
 ├── security-group.tf       <- security groups for NAT and EC2
@@ -24,6 +21,14 @@
 ├── output.tf               <- output values
 └── ...
 ```
+
+### Infractructure
+
+Basic infrastructure configuration remains in this repo (IaC).  
+Configuration (software) goes to new repo:  
+**https://github.com/IlyaKozak/rsschool-devops-course-config**  
+**Infrastructure Diagram:**
+![Diagram](tasks-images/task2-diagram.png)
 
 ### Task 3 - K8s Cluster Configuration and Creation
 
@@ -84,14 +89,6 @@ clusters:
 - `terraform init`
 - `terraform apply`
 
-3. Configure `ssh`:
+3. Add secret `AWS_ROLE_TO_ASSUME` and environment variable `AWS_REGION` in GitHub repo for GitHub Actions workflow to run with `workflow_dispatch` => automatically `terraform apply` infractucture
 
-- On your local computer configure `ssh` agent forwarding, so that you can use Bastion Host to `ssh` to private instances: `ssh-add key.pem`
-- Connect to Bastion Host: `ssh -A ec2-user@nat-instance-public-ip-address`
-- From your Bastion Host connect to instances in private subnets: `ssh ec2-user@private-server-private-ip-address`
-
-4. Add secrets `AWS_ROLE_TO_ASSUME`, `TF_VAR_token` (k3s cluster token) and environment variable `AWS_REGION` in GitHub repo for GitHub Actions workflow to run
-
-5. Create Pull Request/Push to `main` branch for starting GitHub Actions workflow job `terraform` to deploy AWS resources with Terraform
-
-6. `terraform destroy` to destroy AWS resources
+4. `terraform destroy` to destroy AWS resources

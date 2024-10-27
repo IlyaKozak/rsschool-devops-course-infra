@@ -28,14 +28,6 @@ resource "aws_instance" "nat_bastion_host" {
   instance_type = var.nat.type
   key_name      = aws_key_pair.ssh.key_name
 
-  user_data = templatefile("user_data_nat.sh", {
-    k3s_server_private_ip = aws_instance.k3s_server.private_ip
-    domain                = var.jenkins.domain
-    jenkins_nodeport      = var.jenkins.nodeport
-    jenkins_pv            = var.jenkins.pv
-    jenkins_pvc           = var.jenkins.pvc
-  })
-
   network_interface {
     network_interface_id = aws_network_interface.nat.id
     device_index         = 0

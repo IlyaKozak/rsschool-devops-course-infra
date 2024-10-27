@@ -1,8 +1,6 @@
 name: 'Terraform'
 
 on:
-  pull_request:
-    branches: ['main']
   workflow_dispatch:
 
 permissions:
@@ -35,10 +33,6 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -input=false
-        env:
-          TF_VAR_token: ${{ secrets.TF_VAR_token }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
-        env:
-          TF_VAR_token: ${{ secrets.TF_VAR_token }}

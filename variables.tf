@@ -59,7 +59,6 @@ variable "nat" {
   type        = map(string)
   default = {
     type        = "t4g.nano",
-    ami         = "ami-096a84b3b6234d916",
     volume_size = 8,
     volume_type = "gp3",
   }
@@ -82,29 +81,6 @@ variable "key" {
   type        = map(string)
   default = {
     key_name = "aws_jump_host"
-  }
-}
-
-variable "token" {
-  description = "k3s token"
-  type        = string
-}
-
-variable "is_local_setup" {
-  description = "if true prepare ssh and k3s configs on local machine for kubectl"
-  type        = bool
-}
-
-variable "jenkins" {
-  description = "jenkins variables"
-  type        = map(string)
-  default = {
-    domain      = "kozak.day",
-    nodeport    = "30080",
-    volume_size = "8Gi",
-    volume_type = "gp3",
-    pv          = "jenkins-pv",
-    pvc         = "jenkins-claim"
   }
 }
 

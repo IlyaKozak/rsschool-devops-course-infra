@@ -36,15 +36,6 @@ resource "aws_instance" "k3s_server" {
   security_groups      = [aws_security_group.ec2_vpc.id]
   iam_instance_profile = aws_iam_instance_profile.ebs_csi_instance_profile.name
 
-  user_data = templatefile("user_data_k3s_server.sh", {
-    token               = var.token,
-    jenkins_ebs_id      = aws_ebs_volume.jenkins.id,
-    jenkins_nodeport    = var.jenkins.nodeport,
-    jenkins_pv          = var.jenkins.pv,
-    jenkins_pvc         = var.jenkins.pvc,
-    jenkins_volume_size = var.jenkins.volume_size,
-  })
-
   root_block_device {
     volume_size = var.ec2.volume_size
     volume_type = var.ec2.volume_type
@@ -65,11 +56,6 @@ resource "aws_instance" "k3s_agent" {
 
   key_name        = aws_key_pair.ssh.key_name
   security_groups = [aws_security_group.ec2_vpc.id]
-
-  user_data = templatefile("user_data_k3s_agent.sh", {
-    token                 = var.token,
-    k3s_server_private_ip = aws_instance.k3s_server.private_ip,
-  })
 
   root_block_device {
     volume_size = var.ec2.volume_size
