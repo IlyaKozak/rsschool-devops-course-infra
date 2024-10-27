@@ -7,3 +7,10 @@ sysctl -p /etc/sysctl.d/custom-ip-forwarding.conf
 /sbin/iptables -t nat -A POSTROUTING -o $(ip -br l | awk '$1 !~ "lo|vir|wl" { print $1}') -j MASQUERADE
 /sbin/iptables -F FORWARD
 service iptables save
+
+# install nginx
+dnf install nginx -y
+systemctl enable --now nginx
+
+nginx -t
+systemctl restart nginx
