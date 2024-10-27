@@ -1,5 +1,5 @@
 resource "aws_security_group" "ec2_nat" {
-  name        = "nat_instance_security_group"
+  name        = "nat_instance"
   description = "Bastion host and NAT - allows ssh jump to private subnets instances and inbound access from private subnets to Internet"
   vpc_id      = aws_vpc.k8s.id
 
@@ -15,6 +15,22 @@ resource "aws_security_group" "ec2_nat" {
     description = "ssh"
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc.default_cidr]
+  }
+
+  ingress {
+    description = "http"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc.default_cidr]
+  }
+
+  ingress {
+    description = "https"
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = [var.vpc.default_cidr]
   }
@@ -61,7 +77,7 @@ resource "aws_security_group" "ec2_nat" {
 }
 
 resource "aws_security_group" "ec2_vpc" {
-  name        = "ec2_security_group"
+  name        = "ec2"
   description = "allows ingress from vpc and egress to everywhere"
   vpc_id      = aws_vpc.k8s.id
 

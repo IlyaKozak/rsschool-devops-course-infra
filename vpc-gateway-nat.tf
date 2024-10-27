@@ -11,21 +11,22 @@ resource "aws_network_interface" "nat" {
   security_groups   = [aws_security_group.ec2_nat.id]
 
   tags = {
-    Name = "nat_instance_network_interface"
+    Name = "nat_instance"
   }
 }
 
 resource "aws_eip" "nat" {
+  depends_on = [aws_network_interface.nat]
+
   network_interface = aws_network_interface.nat.id
-  depends_on        = [aws_instance.nat_bastion_host, aws_network_interface.nat]
 }
 
 resource "aws_instance" "nat_bastion_host" {
-  ami           = var.nat.ami
+  count = 1
+
+  ami           = data.aws_ami.amazon_linux_2023_latest.id
   instance_type = var.nat.type
-  count         = 1
   key_name      = aws_key_pair.ssh.key_name
-  user_data     = file("user_data_nat.sh")
 
   network_interface {
     network_interface_id = aws_network_interface.nat.id
