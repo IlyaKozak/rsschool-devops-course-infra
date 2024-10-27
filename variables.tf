@@ -95,6 +95,19 @@ variable "is_local_setup" {
   type        = bool
 }
 
+variable "jenkins" {
+  description = "jenkins variables"
+  type        = map(string)
+  default = {
+    domain      = "kozak.day",
+    nodeport    = "30080",
+    volume_size = "8Gi",
+    volume_type = "gp3",
+    pv          = "jenkins-pv",
+    pvc         = "jenkins-claim"
+  }
+}
+
 # Networking
 variable "vpc" {
   description = "VPC with 2 public & 2 private subnets"

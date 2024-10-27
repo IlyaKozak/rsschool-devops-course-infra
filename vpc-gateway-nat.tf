@@ -11,7 +11,7 @@ resource "aws_network_interface" "nat" {
   security_groups   = [aws_security_group.ec2_nat.id]
 
   tags = {
-    Name = "nat_instance_network_interface"
+    Name = "nat_instance"
   }
 }
 
@@ -30,6 +30,10 @@ resource "aws_instance" "nat_bastion_host" {
 
   user_data = templatefile("user_data_nat.sh", {
     k3s_server_private_ip = aws_instance.k3s_server.private_ip
+    domain                = var.jenkins.domain
+    jenkins_nodeport      = var.jenkins.nodeport
+    jenkins_pv            = var.jenkins.pv
+    jenkins_pvc           = var.jenkins.pvc
   })
 
   network_interface {

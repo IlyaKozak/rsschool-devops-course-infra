@@ -36,15 +36,15 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: jenkins-pv
+  name: ${jenkins_pv}
 spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 8Gi
+    storage: ${jenkins_volume_size}
   csi:
     driver: ebs.csi.aws.com
-    volumeHandle: ${jenkins_ebs}
+    volumeHandle: ${jenkins_ebs_id}
 EOF
 
 # create jenkins namespace
@@ -55,16 +55,16 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jenkins-claim
+  name: ${jenkins_pvc}
   namespace: jenkins
 spec:
   storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
-  volumeName: jenkins-pv
+  volumeName: ${jenkins_pv}
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 8Gi
+      storage: ${jenkins_volume_size}
 EOF
 
 # create ebs storage class for dynamic persistent volumes provisioning
@@ -79,7 +79,7 @@ EOF
 
 # install jenkins to k8s with pv dynamically provisioned with default ebs storage class and 
 # exposed with NodePort service on node port 30080
-helm install jenkins jenkins/jenkins --namespace jenkins --set persistence.existingClaim=jenkins-claim \
-  --set controller.serviceType=NodePort --set controller.nodePort=30080
+helm install jenkins jenkins/jenkins --namespace jenkins --set persistence.existingClaim=${jenkins_pvc} \
+  --set controller.serviceType=NodePort --set controller.nodePort=${jenkins_nodeport}
 
 echo "jenkins pod is created."

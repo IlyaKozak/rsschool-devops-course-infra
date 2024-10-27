@@ -13,8 +13,9 @@ service iptables save
 dnf install nginx -y
 systemctl enable --now nginx
 
+# generate tls certificates with certbot
 dnf install certbot python3-certbot-nginx -y
-certbot --agree-tos --register-unsafely-without-email -d kozak.day -d www.kozak.day
+certbot --agree-tos --register-unsafely-without-email -d ${domain} -d www.${domain}
 
 # configure nginx reverse proxy for jenkins in private subnet
 cat <<EOF > /etc/nginx/conf.d/jenkins-reverse-proxy.conf
@@ -27,13 +28,13 @@ server {
 
 server {
   listen 443 ssl;
-  server_name kozak.day; 
+  server_name ${domain}; 
 
-  ssl_certificate /etc/letsencrypt/live/kozak.day/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/kozak.day/privkey.pem;
+  ssl_certificate /etc/letsencrypt/live/${domain}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/${domain}/privkey.pem;
 
   location / {
-    proxy_pass http://${k3s_server_private_ip}:30080; 
+    proxy_pass http://${k3s_server_private_ip}:${jenkins_nodeport}; 
     proxy_set_header Host \$host;  
     proxy_set_header X-Real-IP \$remote_addr; 
     proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for; 
