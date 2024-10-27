@@ -77,7 +77,9 @@ provisioner: ebs.csi.aws.com
 volumeBindingMode: WaitForFirstConsumer
 EOF
 
-# install jenkins to k8s with pv dynamically provisioned with default ebs storage class
-helm install jenkins jenkins/jenkins --namespace jenkins --set persistence.existingClaim=jenkins-claim
+# install jenkins to k8s with pv dynamically provisioned with default ebs storage class and 
+# exposed with NodePort service on node port 30080
+helm install jenkins jenkins/jenkins --namespace jenkins --set persistence.existingClaim=jenkins-claim \
+  --set controller.serviceType=NodePort --set controller.nodePort=30080
 
 echo "jenkins pod is created."

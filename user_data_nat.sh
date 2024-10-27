@@ -1,4 +1,5 @@
 #!/bin/bash
+# setup NAT
 dnf install iptables-services -y
 systemctl enable --now iptables
 echo "net.ipv4.ip_forward=1" | tee -a /etc/sysctl.d/custom-ip-forwarding.conf
