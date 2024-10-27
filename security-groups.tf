@@ -36,14 +36,6 @@ resource "aws_security_group" "ec2_nat" {
   }
 
   ingress {
-    description = "https"
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = [var.vpc.default_cidr]
-  }
-
-  ingress {
     description = "ingress from vpc subnets"
     from_port   = 0
     to_port     = 0

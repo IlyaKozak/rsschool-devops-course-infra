@@ -53,6 +53,8 @@ resource "aws_instance" "k3s_server" {
 }
 
 resource "aws_instance" "k3s_agent" {
+  depends_on = [aws_instance.k3s_server]
+
   ami           = data.aws_ami.amazon_linux_2023_latest.id
   instance_type = var.ec2.nano_type
   subnet_id     = aws_subnet.private_2.id
@@ -64,8 +66,6 @@ resource "aws_instance" "k3s_agent" {
     token                 = var.token,
     k3s_server_private_ip = aws_instance.k3s_server.private_ip
   })
-
-  depends_on = [aws_instance.k3s_server]
 
   root_block_device {
     volume_size = var.ec2.volume_size

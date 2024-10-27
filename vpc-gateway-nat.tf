@@ -16,8 +16,9 @@ resource "aws_network_interface" "nat" {
 }
 
 resource "aws_eip" "nat" {
+  depends_on = [aws_instance.nat_bastion_host, aws_network_interface.nat]
+
   network_interface = aws_network_interface.nat.id
-  depends_on        = [aws_instance.nat_bastion_host, aws_network_interface.nat]
 }
 
 resource "aws_instance" "nat_bastion_host" {
@@ -26,7 +27,10 @@ resource "aws_instance" "nat_bastion_host" {
   ami           = data.aws_ami.amazon_linux_2023_latest.id
   instance_type = var.nat.type
   key_name      = aws_key_pair.ssh.key_name
-  user_data     = file("user_data_nat.sh")
+
+  user_data = templatefile("user_data_nat.sh", {
+    k3s_server_private_ip = aws_instance.k3s_server.private_ip
+  })
 
   network_interface {
     network_interface_id = aws_network_interface.nat.id
