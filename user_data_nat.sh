@@ -13,11 +13,24 @@ service iptables save
 dnf install nginx -y
 systemctl enable --now nginx
 
+dnf install certbot python3-certbot-nginx -y
+certbot --agree-tos --register-unsafely-without-email -d kozak.day -d www.kozak.day
+
 # configure nginx reverse proxy for jenkins in private subnet
 cat <<EOF > /etc/nginx/conf.d/jenkins-reverse-proxy.conf
 server {
   listen 80;
   server_name _;
+
+  return 301 https://\$host\$request_uri;
+}
+
+server {
+  listen 443 ssl;
+  server_name kozak.day; 
+
+  ssl_certificate /etc/letsencrypt/live/kozak.day/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/kozak.day/privkey.pem;
 
   location / {
     proxy_pass http://${k3s_server_private_ip}:30080; 
@@ -31,7 +44,7 @@ server {
 
   location @custom_502 {
     default_type text/html;
-    return 502 "<html><body><h1>Jenkins is loading ...</h1><em>Please wait and chech back later ...</em></body></html>";
+    return 502 "<html><body><h1>Jenkins is loading ...</h1><em>Please wait and check back later ...</em></body></html>";
   }
 }
 EOF
