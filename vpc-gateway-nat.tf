@@ -19,6 +19,10 @@ resource "aws_eip" "nat" {
   depends_on = [aws_network_interface.nat]
 
   network_interface = aws_network_interface.nat.id
+
+  tags = {
+    Name = "nat_instance"
+  }
 }
 
 resource "aws_instance" "nat_bastion_host" {

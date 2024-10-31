@@ -35,7 +35,8 @@ variable "github" {
   description = "github repository"
   default = {
     "org"  = "IlyaKozak"
-    "repo" = "rsschool-devops-course-infra"
+    "repo-infra" = "rsschool-devops-course-infra",
+    "repo-config" = "rsschool-devops-course-config",
   }
   type = map(string)
 }

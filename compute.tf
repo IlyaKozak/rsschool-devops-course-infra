@@ -51,7 +51,7 @@ resource "aws_instance" "k3s_agent" {
   depends_on = [aws_instance.k3s_server]
 
   ami           = data.aws_ami.amazon_linux_2023_latest.id
-  instance_type = var.ec2.nano_type
+  instance_type = var.ec2.micro_type
   subnet_id     = aws_subnet.private_2.id
 
   key_name        = aws_key_pair.ssh.key_name
