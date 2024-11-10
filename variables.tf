@@ -10,6 +10,30 @@ variable "aws" {
   }
 }
 
+variable "ec2" {
+  description = "ec2 istance"
+  type        = map(string)
+  default = {
+    nano_type   = "t4g.nano"   // 2vCPUs, 0.5GiB, 0.0043 USD per Hour
+    micro_type  = "t4g.micro"  // 2vCPUs, 1GiB, 0.0086 USD per Hour
+    small_type  = "t4g.small"  // 2vCPUs, 2GiB, 0.0172 USD per Hour
+    medium_type = "t4g.medium" // 2vCPUs, 4GiB, 0.0344 USD per Hour
+    large_type  = "t4g.large"  // 2vCPUs, 8GiB, 0.0688 USD per Hour
+    volume_size = 8,
+    volume_type = "gp3",
+  }
+}
+
+variable "github" {
+  description = "github repository"
+  default = {
+    "org"         = "IlyaKozak"
+    "repo-infra"  = "rsschool-devops-course-infra",
+    "repo-config" = "rsschool-devops-course-config",
+  }
+  type = map(string)
+}
+
 variable "iam_role" {
   description = "iam role to assume for github actions"
   type = object({
@@ -31,14 +55,22 @@ variable "iam_role" {
   }
 }
 
-variable "github" {
-  description = "github repository"
+variable "key" {
+  description = "ssh key for aws bastion host"
+  type        = map(string)
   default = {
-    "org"         = "IlyaKozak"
-    "repo-infra"  = "rsschool-devops-course-infra",
-    "repo-config" = "rsschool-devops-course-config",
+    key_name = "aws_jump_host"
   }
-  type = map(string)
+}
+
+variable "nat" {
+  description = "nat istance"
+  type        = map(string)
+  default = {
+    type        = "t4g.nano",
+    volume_size = 8,
+    volume_type = "gp3",
+  }
 }
 
 variable "oidc_provider" {
@@ -55,37 +87,6 @@ variable "oidc_provider" {
   }
 }
 
-variable "nat" {
-  description = "nat istance"
-  type        = map(string)
-  default = {
-    type        = "t4g.nano",
-    volume_size = 8,
-    volume_type = "gp3",
-  }
-}
-
-variable "ec2" {
-  description = "ec2 istance"
-  type        = map(string)
-  default = {
-    nano_type   = "t4g.nano"
-    micro_type  = "t4g.micro"
-    small_type  = "t4g.small"
-    volume_size = 8,
-    volume_type = "gp3",
-  }
-}
-
-variable "key" {
-  description = "ssh key for aws bastion host"
-  type        = map(string)
-  default = {
-    key_name = "aws_jump_host"
-  }
-}
-
-# Networking
 variable "vpc" {
   description = "VPC with 2 public & 2 private subnets"
   type        = map(string)
