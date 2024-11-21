@@ -55,6 +55,21 @@ variable "iam_role" {
   }
 }
 
+variable "k3s_instance_profile" {
+  description = "k3s instance profile"
+  type = object({
+    policies = set(string)
+  })
+  default = {
+    policies = [
+      "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy",
+      "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser",
+      "arn:aws:iam::aws:policy/AmazonSESFullAccess",
+      "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
+    ]
+  }
+}
+
 variable "key" {
   description = "ssh key for aws bastion host"
   type        = map(string)

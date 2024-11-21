@@ -1,10 +1,10 @@
-resource "aws_iam_instance_profile" "ebs_csi_instance_profile" {
-  name = "EbsCsiInstanceProfile"
-  role = aws_iam_role.ebs_csi_driver_role.name
+resource "aws_iam_instance_profile" "k3s" {
+  name = "k3sServerInstanceProfile"
+  role = aws_iam_role.k3s.name
 }
 
-resource "aws_iam_role" "ebs_csi_driver_role" {
-  name = "EbsCsiDriverRole"
+resource "aws_iam_role" "k3s" {
+  name = "k3sServerRole"
 
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
@@ -20,7 +20,9 @@ resource "aws_iam_role" "ebs_csi_driver_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "ebs_csi_driver_attachment" {
-  role       = aws_iam_role.ebs_csi_driver_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+resource "aws_iam_role_policy_attachment" "k3s" {
+  for_each = var.k3s_instance_profile.policies
+
+  role       = aws_iam_role.k3s.name
+  policy_arn = each.value
 }
