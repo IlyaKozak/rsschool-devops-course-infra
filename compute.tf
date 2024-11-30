@@ -29,7 +29,7 @@ data "aws_ami" "amazon_linux_2023_latest" {
 
 resource "aws_instance" "k3s_server" {
   ami           = data.aws_ami.amazon_linux_2023_latest.id
-  instance_type = var.ec2.large_type
+  instance_type = var.ec2.medium_type
   subnet_id     = aws_subnet.private_1.id
 
   key_name             = aws_key_pair.ssh.key_name

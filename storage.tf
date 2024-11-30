@@ -7,13 +7,3 @@ resource "aws_ebs_volume" "jenkins" {
     Name = "jenkins"
   }
 }
-
-resource "aws_ebs_volume" "sonarqube" {
-  availability_zone = var.aws.availability_zones[0]
-  size              = 4
-  type              = "gp3"
-
-  tags = {
-    Name = "sonarqube"
-  }
-}
