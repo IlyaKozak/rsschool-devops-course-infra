@@ -54,8 +54,8 @@ resource "aws_instance" "k3s_agent" {
   instance_type = var.ec2.small_type
   subnet_id     = aws_subnet.private_2.id
 
-  key_name        = aws_key_pair.ssh.key_name
-  security_groups = [aws_security_group.ec2_vpc.id]
+  key_name             = aws_key_pair.ssh.key_name
+  security_groups      = [aws_security_group.ec2_vpc.id]
   iam_instance_profile = aws_iam_instance_profile.k3s.name
 
   root_block_device {
