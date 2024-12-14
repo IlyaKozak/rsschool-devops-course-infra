@@ -36,6 +36,14 @@ resource "aws_security_group" "ec2_nat" {
   }
 
   ingress {
+    description = "smtp"
+    from_port   = 587
+    to_port     = 587
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc.default_cidr]
+  }
+
+  ingress {
     description = "ingress from vpc subnets"
     from_port   = 0
     to_port     = 0
@@ -71,6 +79,14 @@ resource "aws_security_group" "ec2_nat" {
     description = "https"
     from_port   = 443
     to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc.default_cidr]
+  }
+
+  egress {
+    description = "smtp"
+    from_port   = 587
+    to_port     = 587
     protocol    = "tcp"
     cidr_blocks = [var.vpc.default_cidr]
   }
